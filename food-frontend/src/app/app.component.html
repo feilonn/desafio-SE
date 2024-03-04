@@ -1,0 +1,79 @@
+<form (ngSubmit)="submitForm()">
+  <div>
+    <label for="valorFrete">Valor do Frete:</label>
+    <input type="number" name="valorFrete" [(ngModel)]="formData.valorFrete" (input)="onInputValorFrete($event)">
+  </div>
+  <div>
+    <label for="desconto">Desconto:</label>
+    <input type="number" name="desconto" [(ngModel)]="formData.desconto" (input)="onInputDesconto($event)">
+  </div>
+  <div>
+    <label for="tipoDesconto">Tipo de Desconto:</label>
+    <select name="tipoDesconto" [(ngModel)]="formData.tipoDesconto" (change)="onChangeTipoDesconto($event)">
+      <option value="INTEIRO">Inteiro</option>
+      <option value="PORCENTAGEM">Porcentagem</option>
+    </select>
+  </div>
+  <div>
+    <label for="acrescimo">Acréscimo:</label>
+    <input type="number" name="acrescimo" [(ngModel)]="formData.acrescimo" (input)="onInputAcrescimo($event)">
+  </div>
+  <div>
+    <label for="tipoAcrescimo">Tipo de Acréscimo:</label>
+    <select name="tipoAcrescimo" [(ngModel)]="formData.tipoAcrescimo" (change)="onChangeTipoAcrescimo($event)">
+      <option value="INTEIRO">Inteiro</option>
+      <option value="PORCENTAGEM">Porcentagem</option>
+    </select>
+  </div>
+  <div>
+    <label for="tipoPagamento">Tipo de Pagamento:</label>
+    <select name="tipoPagamento" [(ngModel)]="formData.tipoPagamento" (change)="onChangeTipoPagamento($event)">
+      <option value="PIX">Pix</option>
+    </select>
+  </div>
+  <div *ngFor="let pedido of formData.pedidos; let i = index">
+    <h3>Pedido {{ i + 1 }}</h3>
+    <div>
+      <label for="nomeSolicitante{{i}}">Nome do Solicitante:</label>
+      <input type="text" name="nomeSolicitante{{i}}" [(ngModel)]="pedido.nomeSolicitante">
+    </div>
+    <div *ngFor="let item of pedido.itensPedido; let j = index">
+      <h4>Item {{ j + 1 }}</h4>
+      <div>
+        <label for="tituloItem{{i}}{{j}}">Título do Item:</label>
+        <input type="text" name="tituloItem{{i}}{{j}}" [(ngModel)]="item.tituloItem">
+      </div>
+      <div>
+        <label for="valorItem{{i}}{{j}}">Valor do Item:</label>
+        <input type="number" name="valorItem{{i}}{{j}}" [(ngModel)]="item.valorItem">
+      </div>
+    </div>
+    <br>
+    <button type="button" (click)="adicionarItem(pedido)">Adicionar Item</button>
+  </div>
+  <br>
+  <button type="button" (click)="adicionarPedido()">Adicionar Pedido</button>
+  <br><br>
+  <button type="submit">Enviar</button>
+</form>
+<div>
+
+  <hr>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome do Solicitante</th>
+        <th>Valor a ser Pago</th>
+        <th>Link Pagamento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pagamento of detalhesPagamento">
+        <td>{{ pagamento.nomeSolicitante }}</td>
+        <td>R$ {{ pagamento.valorFinalParaPagar }}</td>
+        <td><a href="{{ pagamento.urlPix }}" target="_blank">Link de Pagamento</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
