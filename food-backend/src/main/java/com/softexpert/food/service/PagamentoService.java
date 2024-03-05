@@ -1,6 +1,6 @@
 package com.softexpert.food.service;
 
-import com.softexpert.food.domain.exception.ValorDecimalNegativoException;
+import com.softexpert.food.domain.exception.BadRequestException;
 import com.softexpert.food.dto.CarrinhoDTO;
 import com.softexpert.food.domain.model.ItemPedido;
 import com.softexpert.food.dto.PagamentoDetalhesDTO;
@@ -84,8 +84,9 @@ public class PagamentoService {
         switch (tipoPagamento) {
             case PIX:
                 return solicitarGeracaoDePix(pagamentoDetalhesDTO);
-//            case BOLETO:
-//                return solicitarGeraoDeBoleto(pagamentoDetalhesDTO);
+            case BOLETO:
+                throw new BadRequestException("Ocorreu um erro no processamento." +
+                        " O método de pagamento por boleto está indisponível no momento.");
 //            case CREDITO:
 //                return solicitarPagamentoCredito(pagamentoDetalhesDTO);
             default:

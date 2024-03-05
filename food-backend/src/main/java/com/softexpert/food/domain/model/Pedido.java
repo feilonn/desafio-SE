@@ -12,6 +12,6 @@ public class Pedido {
 
     @Valid
     private List<ItemPedido> itensPedido;
-    private double totalPedido;
+//    private double totalPedido;
     private String nomeSolicitante;
 }

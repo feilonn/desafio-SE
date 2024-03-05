@@ -1,8 +1,8 @@
 package com.softexpert.food.domain.exception.handler;
 
 import com.softexpert.food.domain.exception.ValidationExceptionDetails;
-import com.softexpert.food.domain.exception.ValorDecimalNegativoException;
-import com.softexpert.food.domain.exception.ValorDecimalNegativoExceptionDetails;
+import com.softexpert.food.domain.exception.BadRequestException;
+import com.softexpert.food.domain.exception.BadRequestExceptionDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RestExceptionHandler {
 
-    @ExceptionHandler(ValorDecimalNegativoException.class)
-    public ResponseEntity<ValorDecimalNegativoExceptionDetails> handlerValorDecimalNegativoExceptionDetails(
-            ValorDecimalNegativoException exception) {
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<BadRequestExceptionDetails> handlerValorDecimalNegativoExceptionDetails(
+            BadRequestException exception) {
 
         return new ResponseEntity<>(
-                ValorDecimalNegativoExceptionDetails.builder()
+                BadRequestExceptionDetails.builder()
                         .timeStamp(LocalDateTime.now())
                         .status(HttpStatus.BAD_REQUEST.value())
                         .title("Bad Request")

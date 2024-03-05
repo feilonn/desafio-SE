@@ -1,7 +1,9 @@
 package com.softexpert.food.enums;
 
 public enum TipoPagamento {
-    PIX("Pix");
+    PIX("Pix"),
+    BOLETO("Boleto"),
+    DEBITO("Debito");
 
     private final String descricao;
 

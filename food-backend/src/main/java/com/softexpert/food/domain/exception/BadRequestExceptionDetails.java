@@ -5,6 +5,6 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class ValorDecimalNegativoExceptionDetails extends ExceptionDetails {
+public class BadRequestExceptionDetails extends ExceptionDetails {
 
 }

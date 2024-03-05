@@ -18,24 +18,24 @@ import java.util.Map;
 @Service
 public class PixService {
 
-    public JSONObject pixCriarChaveAleatoria() {
-
-        JSONObject options = ConfigJsonObjectPixRequest.configuringJsonObject();
-
-        try {
-            EfiPay efi = new EfiPay(options);
-            JSONObject response = efi.call("pixCreateEvp", new HashMap<String,String>(), new JSONObject());
-            System.out.println(response.toString());
-            return response;
-        }catch (EfiPayException e){
-            System.out.println(e.getError());
-            System.out.println(e.getErrorDescription());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
+//    public JSONObject pixCriarChaveAleatoria() {
+//
+//        JSONObject options = ConfigJsonObjectPixRequest.configuringJsonObject();
+//
+//        try {
+//            EfiPay efi = new EfiPay(options);
+//            JSONObject response = efi.call("pixCreateEvp", new HashMap<String,String>(), new JSONObject());
+//            System.out.println(response.toString());
+//            return response;
+//        }catch (EfiPayException e){
+//            System.out.println(e.getError());
+//            System.out.println(e.getErrorDescription());
+//        }
+//        catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return null;
+//    }
 
     public String pixCriarCobranca(PixChargeDTO pixCharge) {
 

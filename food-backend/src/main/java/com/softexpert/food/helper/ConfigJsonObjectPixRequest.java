@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConfigJsonObjectPixRequest {
 
-    @Value("${CLIENT_ID}")
-    private String clientId;
-
-    @Value("${CLIENT_SECRET}")
-    private String clientSecret;
+//    @Value("${CLIENT_ID}")
+//    private String clientId;
+//
+//    @Value("${CLIENT_SECRET}")
+//    private String clientSecret;
 
     public static JSONObject configuringJsonObject(){
         Credentials credentials = new Credentials();

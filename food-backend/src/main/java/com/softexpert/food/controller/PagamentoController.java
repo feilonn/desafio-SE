@@ -20,7 +20,7 @@ import java.util.List;
 public class PagamentoController {
 
     private final PagamentoService pagamentoService;
-    private final PixService pixService;
+//    private final PixService pixService;
 
     @PostMapping("calculaValoresPedido")
     public ResponseEntity<List<PagamentoDetalhesDTO>> calcularPagamento(@RequestBody @Valid CarrinhoDTO carrinhoDTO) {
@@ -29,24 +29,24 @@ public class PagamentoController {
         return ResponseEntity.ok(detalhesPagamento);
     }
 
-    @GetMapping("pix")
-    public ResponseEntity<String> createPixEVP() {
+//    @GetMapping("pix")
+//    public ResponseEntity<String> createPixEVP() {
+//
+//        JSONObject response = pixService.pixCriarChaveAleatoria();
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(response.toString());
+//    }
 
-        JSONObject response = pixService.pixCriarChaveAleatoria();
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(response.toString());
-    }
-
-    @PostMapping("pix/charge")
-    public ResponseEntity<String> createPixCharge(@RequestBody PixChargeDTO pixCharge) {
-
-        String response = pixService.pixCriarCobranca(pixCharge);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(response);
-    }
+//    @PostMapping("pix/charge")
+//    public ResponseEntity<String> createPixCharge(@RequestBody PixChargeDTO pixCharge) {
+//
+//        String response = pixService.pixCriarCobranca(pixCharge);
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(response);
+//    }
 
 }
