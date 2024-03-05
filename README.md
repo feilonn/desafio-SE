@@ -86,7 +86,8 @@ Utilizados nos testes: JUnit, Mockito e AssertJ.
 ![image](https://github.com/feilonn/desafio-SE/assets/60004704/cd5a434c-7c78-4fd4-801b-151e8dc9a75a)
 
 # Configuração de CORS
-![image](https://github.com/feilonn/desafio-SE/assets/60004704/772f8959-95f4-4d20-9580-ca6150a47d5b)
+![image](https://github.com/feilonn/desafio-SE/assets/60004704/6cd11be9-dc64-4223-b1c8-92d735fbc271)
+
 
 # Video demonstrativo da requisição através do Front-end
 
@@ -111,7 +112,8 @@ Utilizados nos testes: JUnit, Mockito e AssertJ.
 
 # Informações Adicionais
 - O método de pagamento implementado nessa ocasião foi o de PIX, mas a aplicação está pronta para ser integrada com demais outras através um controlador baseado em ENUM:
-- 
+- Foi utilizando a tipagem para os dados numéricos como BigDecimal por se tratar de uma aplicação que resulta em uma operação financeira. O BigDecimal possui vantagens no quisito de precisão, arredondamento e evita erros que podem ocorrer ao se utilizar double, por exemplo.
+  
 ![image](https://github.com/feilonn/desafio-SE/assets/60004704/6a0c5be6-fcce-4a8d-ac08-bb875c544336)
 ![image](https://github.com/feilonn/desafio-SE/assets/60004704/93d655a8-41c3-48b2-b65c-1eeff82c65a6)
 
