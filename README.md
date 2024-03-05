@@ -112,11 +112,11 @@ Utilizados nos testes: JUnit, Mockito e AssertJ.
 
 # Informações Adicionais
 - O método de pagamento implementado nessa ocasião foi o de PIX, mas a aplicação está pronta para ser integrada com demais outras através um controlador baseado em ENUM:
-- Foi utilizando a tipagem para os dados numéricos como BigDecimal por se tratar de uma aplicação que resulta em uma operação financeira. O BigDecimal possui vantagens no quisito de precisão, arredondamento e evita erros que podem ocorrer ao se utilizar double, por exemplo.
   
 ![image](https://github.com/feilonn/desafio-SE/assets/60004704/6a0c5be6-fcce-4a8d-ac08-bb875c544336)
 ![image](https://github.com/feilonn/desafio-SE/assets/60004704/93d655a8-41c3-48b2-b65c-1eeff82c65a6)
 
+- Foi utilizando a tipagem para os dados numéricos como BigDecimal por se tratar de uma aplicação que resulta em uma operação financeira. O BigDecimal possui vantagens no quisito de precisão, arredondamento e evita erros que podem ocorrer ao se utilizar double, por exemplo.
 - Durante o desenvolvimento do código foram levadas em considerações as convenções de código limpo, como: Nomes intuitivos e precisos para variáveis, métodos e classes; Reaproveitamento de código; Divisão de Responsabilidades, etc.
 - Foi também considerado padrões de qualidade de código (Sonar Lint, SonarQube). Obedecendo por exemplo: Tamanho máximo de linha de código, Remoção de Imports não utilizados, Cobertura de Testes e etc. 
 - O projeto do front-end é apenas algo básico somente para afetuar a requisição via browser (assim como descrito no desafio técnico).
