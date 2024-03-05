@@ -32,7 +32,7 @@ export class AppComponent {
   constructor(private http: HttpClient) { }
 
   submitForm() {
-    const endpoint = 'http://localhost:8080/food/calculaValoresPedido';
+    const endpoint = 'http://localhost:8080/api/v1/food/processarPedido';
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -50,7 +50,6 @@ export class AppComponent {
         },
         (error) => {
           console.error('Erro ao enviar requisição:', error);
-          // Mostre um alerta para o usuário em caso de erro
           alert('Erro ao enviar requisição. Por favor, tente novamente.');
         }
       );

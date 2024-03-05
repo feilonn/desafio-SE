@@ -2,15 +2,8 @@ package com.softexpert.food.helper;
 
 import com.softexpert.food.pix.Credentials;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
 
 public class ConfigJsonObjectPixRequest {
-
-//    @Value("${CLIENT_ID}")
-//    private String clientId;
-//
-//    @Value("${CLIENT_SECRET}")
-//    private String clientSecret;
 
     public static JSONObject configuringJsonObject(){
         Credentials credentials = new Credentials();

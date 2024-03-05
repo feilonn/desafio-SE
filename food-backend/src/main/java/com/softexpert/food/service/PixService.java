@@ -4,6 +4,7 @@ import br.com.efi.efisdk.EfiPay;
 import br.com.efi.efisdk.exceptions.EfiPayException;
 import com.softexpert.food.dto.PixChargeDTO;
 import com.softexpert.food.helper.ConfigJsonObjectPixRequest;
+import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Log4j2
 public class PixService {
 
 //    public JSONObject pixCriarChaveAleatoria() {
@@ -56,11 +58,11 @@ public class PixService {
             return pixGerarLink(String.valueOf(idFromJson));
 
         }catch (EfiPayException e){
-            System.out.println(e.getError());
-            System.out.println(e.getErrorDescription());
+            log.error(e.getError());
+            log.error(e.getErrorDescription());
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
 
         return null;
@@ -81,11 +83,11 @@ public class PixService {
             linkVisualizacao = (String) response.get("linkVisualizacao");
 
         }catch (EfiPayException e){
-            System.out.println(e.getError());
-            System.out.println(e.getErrorDescription());
+            log.error(e.getError());
+            log.error(e.getErrorDescription());
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
 
         return linkVisualizacao;

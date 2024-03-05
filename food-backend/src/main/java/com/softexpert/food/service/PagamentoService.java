@@ -30,7 +30,7 @@ public class PagamentoService {
     @Value("${pix.chave}")
     private String chavePix;
 
-    public List<PagamentoDetalhesDTO> calcularPagamento(CarrinhoDTO carrinho) {
+    public List<PagamentoDetalhesDTO> processarPedido(CarrinhoDTO carrinho) {
 
         List<PagamentoDetalhesDTO> detalhesPagamento = new ArrayList<>();
 
@@ -48,16 +48,16 @@ public class PagamentoService {
 
             double proporcaoItens = calcularProporcao(totalPedido, totalCompraSemFreteEDescontos);
 
-            double valorEntregaProporcional = calcularValorEntregaProporcional(carrinho.getValorFrete(),
+            double valorEntregaProporcional = calcularValorProporcional(carrinho.getValorFrete(),
                     proporcaoItens);
 
-            double valorDescontoProporcional = calcularValorDescontoProporcional(valorDescontoTratado,
+            double valorDescontoProporcional = calcularValorProporcional(valorDescontoTratado,
                     proporcaoItens);
 
-            double valorAcrescimoProporcional = calcularValorAcrescimoProporcional(valorAcrescimoTratado,
+            double valorAcrescimoProporcional = calcularValorProporcional(valorAcrescimoTratado,
                     proporcaoItens);
 
-            double valorAPagar = calcularValorAPagar(totalPedido, valorEntregaProporcional,
+            double valorAPagar = calcularValorFinalAPagar(totalPedido, valorEntregaProporcional,
                     valorDescontoProporcional, valorAcrescimoProporcional);
 
             String valorTratado = trataValorDecimal(valorAPagar);
@@ -65,33 +65,14 @@ public class PagamentoService {
             List<ItemPedido> itensPedidoDTO = BuilderClassesHelper
                     .criarItensPedidoDTO(pedido.getItensPedido());
 
-            PagamentoDetalhesDTO detalhesItemSolicitado = BuilderClassesHelper
-                    .criarDetalhesItemSolicitado(pedido.getNomeSolicitante(), itensPedidoDTO, valorTratado);
-
-            String linkMetodoPagamento = vericaMetodoPagamento(carrinho.getTipoPagamento(), detalhesItemSolicitado);
-
-            detalhesItemSolicitado.setUrlPix(linkMetodoPagamento);
+            PagamentoDetalhesDTO detalhesItemSolicitado = criarDetalhesItemSolicitado(pedido,
+                    valorTratado, itensPedidoDTO, carrinho.getTipoPagamento());
 
             detalhesPagamento.add(detalhesItemSolicitado);
 
         });
 
         return detalhesPagamento;
-    }
-
-    private String vericaMetodoPagamento(TipoPagamento tipoPagamento,
-                                         PagamentoDetalhesDTO pagamentoDetalhesDTO) {
-        switch (tipoPagamento) {
-            case PIX:
-                return solicitarGeracaoDePix(pagamentoDetalhesDTO);
-            case BOLETO:
-                throw new BadRequestException("Ocorreu um erro no processamento." +
-                        " O método de pagamento por boleto está indisponível no momento.");
-//            case CREDITO:
-//                return solicitarPagamentoCredito(pagamentoDetalhesDTO);
-            default:
-                return solicitarGeracaoDePix(pagamentoDetalhesDTO);
-        }
     }
 
     private String solicitarGeracaoDePix(PagamentoDetalhesDTO pagamentoDetalhesDTO) {
@@ -168,21 +149,43 @@ public class PagamentoService {
         return valor / total;
     }
 
-    private double calcularValorAcrescimoProporcional(double valorAcrescimo, double proporcaoItens) {
-        return valorAcrescimo * proporcaoItens;
+    private double calcularValorProporcional(double valorOriginal, double proporcaoItens) {
+        return valorOriginal * proporcaoItens;
     }
 
-
-    private double calcularValorEntregaProporcional(double valorEntrega, double proporcaoItens) {
-        return valorEntrega * proporcaoItens;
-    }
-
-    private double calcularValorDescontoProporcional(double desconto, double proporcaoItens) {
-        return desconto * proporcaoItens;
-    }
-
-    private double calcularValorAPagar(double totalPedido, double valorEntregaProporcional,
+    private double calcularValorFinalAPagar(double totalPedido, double valorEntregaProporcional,
                                        double valorDescontoProporcional, double valorAcrescimoProporcional) {
         return totalPedido + (valorEntregaProporcional - valorDescontoProporcional + valorAcrescimoProporcional);
+    }
+
+    private PagamentoDetalhesDTO criarDetalhesItemSolicitado(Pedido pedido, String valorTratado,
+                                                             List<ItemPedido> itensPedidoDTO,
+                                                             TipoPagamento tipoPagamento) {
+
+        PagamentoDetalhesDTO detalhesItemSolicitado = BuilderClassesHelper
+                .criarDetalhesItemSolicitado(pedido.getNomeSolicitante(), itensPedidoDTO, valorTratado);
+
+        String linkMetodoPagamento = verificarMetodoPagamento(tipoPagamento, detalhesItemSolicitado);
+
+        detalhesItemSolicitado.setUrlPix(linkMetodoPagamento);
+
+        return detalhesItemSolicitado;
+    }
+
+    private String verificarMetodoPagamento(TipoPagamento tipoPagamento,
+                                            PagamentoDetalhesDTO pagamentoDetalhesDTO) {
+        switch (tipoPagamento) {
+            case PIX:
+                return solicitarGeracaoDePix(pagamentoDetalhesDTO);
+            case BOLETO:
+                throw new BadRequestException("Ocorreu um erro no processamento." +
+                        " O método de pagamento por boleto está indisponível no momento.");
+
+                //Novas formas de pagamento
+//            case CREDITO:
+//                return solicitarPagamentoCredito(pagamentoDetalhesDTO);
+            default:
+                return solicitarGeracaoDePix(pagamentoDetalhesDTO);
+        }
     }
 }

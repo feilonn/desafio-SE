@@ -1,34 +1,37 @@
 package com.softexpert.food.controller;
 
-import com.softexpert.food.dto.PixChargeDTO;
 import com.softexpert.food.dto.CarrinhoDTO;
 import com.softexpert.food.dto.PagamentoDetalhesDTO;
 import com.softexpert.food.service.PagamentoService;
-import com.softexpert.food.service.PixService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONObject;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+
+@Api(value = "API REST SoftExpert")
 @RestController
-@RequestMapping("food")
+@RequestMapping("api/v1/food")
 @RequiredArgsConstructor
 public class PagamentoController {
 
     private final PagamentoService pagamentoService;
-//    private final PixService pixService;
 
-    @PostMapping("calculaValoresPedido")
-    public ResponseEntity<List<PagamentoDetalhesDTO>> calcularPagamento(@RequestBody @Valid CarrinhoDTO carrinhoDTO) {
+    @PostMapping("processarPedido")
+    @ApiOperation(value = "Retorna uma lista de pedidos, com seu valor inicial, final e link para pagamento.")
+    public ResponseEntity<List<PagamentoDetalhesDTO>> processarPedido(@RequestBody @Valid CarrinhoDTO carrinhoDTO) {
 
-        List<PagamentoDetalhesDTO> detalhesPagamento = pagamentoService.calcularPagamento(carrinhoDTO);
+        List<PagamentoDetalhesDTO> detalhesPagamento = pagamentoService.processarPedido(carrinhoDTO);
         return ResponseEntity.ok(detalhesPagamento);
     }
 
+
+    /*Método utilizado para gerar uma chave PIX única e aleatória no banco Efí.
+      Tal chave foi utilizada nessa aplicação */
 //    @GetMapping("pix")
 //    public ResponseEntity<String> createPixEVP() {
 //
@@ -37,16 +40,6 @@ public class PagamentoController {
 //        return ResponseEntity.ok()
 //                .contentType(MediaType.APPLICATION_JSON)
 //                .body(response.toString());
-//    }
-
-//    @PostMapping("pix/charge")
-//    public ResponseEntity<String> createPixCharge(@RequestBody PixChargeDTO pixCharge) {
-//
-//        String response = pixService.pixCriarCobranca(pixCharge);
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(response);
 //    }
 
 }

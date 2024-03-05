@@ -48,9 +48,9 @@ class PagamentoControllerTest {
 
         List<PagamentoDetalhesDTO> list = BuilderClassesHelper.criarListDetalhesItemSolicitado();
 
-        when(pagamentoService.calcularPagamento(dtoRequest)).thenReturn(list);
+        when(pagamentoService.processarPedido(dtoRequest)).thenReturn(list);
 
-        ResponseEntity<List<PagamentoDetalhesDTO>> responseEntity = pagamentoController.calcularPagamento(dtoRequest);
+        ResponseEntity<List<PagamentoDetalhesDTO>> responseEntity = pagamentoController.processarPedido(dtoRequest);
 
         assertThat(responseEntity).isNotNull();
 

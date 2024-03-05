@@ -33,8 +33,8 @@ class PagamentoServiceTest {
     PixService pixService;
 
     @Test
-    @DisplayName("calcularPagamento deve retornar detalhes pagamento se sucesso com desconto inteiro")
-    void calcularPagamento_deveRetornarList_SeSucesso_DescontoEAcrescimoInteiro() {
+    @DisplayName("processarPedido deve retornar detalhes pagamento se sucesso com desconto inteiro")
+    void processarPedido_deveRetornarList_SeSucesso_DescontoEAcrescimoInteiro() {
 
         ReflectionTestUtils.setField(pagamentoService, "chavePix", "chave_pix");
 
@@ -44,7 +44,7 @@ class PagamentoServiceTest {
 
         when(pixService.pixCriarCobranca(pixChargeDTO)).thenReturn(responseUrlPix);
 
-        List<PagamentoDetalhesDTO> response = pagamentoService.calcularPagamento(dtoRequest);
+        List<PagamentoDetalhesDTO> response = pagamentoService.processarPedido(dtoRequest);
 
         assertThat(response).isNotNull();
         assertThat(response.get(0).getNomeSolicitante()).isEqualTo(pixChargeDTO.getNomePagador());
@@ -52,8 +52,8 @@ class PagamentoServiceTest {
     }
 
     @Test
-    @DisplayName("calcularPagamento deve retornar detalhes pagamento se sucesso com desconto porcentagem")
-    void calcularPagamento_deveRetornarList_SeSucesso_DescontoPorcentagem() {
+    @DisplayName("processarPedido deve retornar detalhes pagamento se sucesso com desconto porcentagem")
+    void processarPedido_deveRetornarList_SeSucesso_DescontoPorcentagem() {
 
         ReflectionTestUtils.setField(pagamentoService, "chavePix", "chave_pix");
 
@@ -64,7 +64,7 @@ class PagamentoServiceTest {
 
         when(pixService.pixCriarCobranca(pixChargeDTO)).thenReturn(responseUrlPix);
 
-        List<PagamentoDetalhesDTO> response = pagamentoService.calcularPagamento(dtoRequest);
+        List<PagamentoDetalhesDTO> response = pagamentoService.processarPedido(dtoRequest);
 
         assertThat(response).isNotNull();
         assertThat(response.get(0).getNomeSolicitante()).isEqualTo(pixChargeDTO.getNomePagador());
@@ -72,8 +72,8 @@ class PagamentoServiceTest {
     }
 
     @Test
-    @DisplayName("calcularPagamento deve retornar detalhes pagamento se sucesso com acrescimo porcentagem")
-    void calcularPagamento_deveRetornarList_SeSucesso_AcrescimoPorcentagem() {
+    @DisplayName("processarPedido deve retornar detalhes pagamento se sucesso com acrescimo porcentagem")
+    void processarPedido_deveRetornarList_SeSucesso_AcrescimoPorcentagem() {
 
         ReflectionTestUtils.setField(pagamentoService, "chavePix", "chave_pix");
 
@@ -84,7 +84,7 @@ class PagamentoServiceTest {
 
         when(pixService.pixCriarCobranca(pixChargeDTO)).thenReturn(responseUrlPix);
 
-        List<PagamentoDetalhesDTO> response = pagamentoService.calcularPagamento(dtoRequest);
+        List<PagamentoDetalhesDTO> response = pagamentoService.processarPedido(dtoRequest);
 
         assertThat(response).isNotNull();
         assertThat(response.get(0).getNomeSolicitante()).isEqualTo(pixChargeDTO.getNomePagador());
@@ -92,8 +92,8 @@ class PagamentoServiceTest {
     }
 
     @Test
-    @DisplayName("calcularPagamento deve retornar detalhes pagamento via pix se metodo pagamento nao especificado.")
-    void calcularPagamento_deveRetornarList_SeSucesso_MetodoPagamentoNaoEspecificado() {
+    @DisplayName("processarPedido deve retornar detalhes pagamento via pix se metodo pagamento nao especificado.")
+    void processarPedido_deveRetornarList_SeSucesso_MetodoPagamentoNaoEspecificado() {
 
         ReflectionTestUtils.setField(pagamentoService, "chavePix", "chave_pix");
 
@@ -105,7 +105,7 @@ class PagamentoServiceTest {
 
         when(pixService.pixCriarCobranca(pixChargeDTO)).thenReturn(responseUrlPix);
 
-        List<PagamentoDetalhesDTO> response = pagamentoService.calcularPagamento(dtoRequest);
+        List<PagamentoDetalhesDTO> response = pagamentoService.processarPedido(dtoRequest);
 
         assertThat(response).isNotNull();
         assertThat(response.get(0).getNomeSolicitante()).isEqualTo(pixChargeDTO.getNomePagador());
@@ -113,8 +113,8 @@ class PagamentoServiceTest {
     }
 
     @Test
-    @DisplayName("calcularPagamento deve lançar exception se o método de pagamento não estiver disponível.")
-    void calcularPagamento_deveLancarException_SeMetodoPagamentoNaoDisponivel() {
+    @DisplayName("processarPedido deve lançar exception se o método de pagamento não estiver disponível.")
+    void processarPedido_deveLancarException_SeMetodoPagamentoNaoDisponivel() {
 
         ReflectionTestUtils.setField(pagamentoService, "chavePix", "chave_pix");
 
@@ -122,7 +122,7 @@ class PagamentoServiceTest {
         dtoRequest.setTipoPagamento(TipoPagamento.BOLETO);
 
         BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            pagamentoService.calcularPagamento(dtoRequest);
+            pagamentoService.processarPedido(dtoRequest);
         });
 
         assertThat(exception.getMessage()).isEqualTo("Ocorreu um erro no processamento." +
