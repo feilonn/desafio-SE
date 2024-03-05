@@ -21,7 +21,7 @@ public class WebConfig {
                                 HttpMethod.POST.name(),
                                 HttpMethod.PUT.name(),
                                 HttpMethod.DELETE.name())
-                        .allowedOrigins("*")
+                        .allowedOrigins("http://localhost:4200")
                         .allowedHeaders(HttpHeaders.CONTENT_TYPE,
                                 HttpHeaders.AUTHORIZATION);
             }

@@ -2,6 +2,8 @@ package com.softexpert.food.dto;
 
 import com.softexpert.food.domain.model.ItemPedido;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +40,7 @@ public class PagamentoDetalhesDTOTest {
 
         ItemPedido itemPedido = ItemPedido.builder()
                 .tituloItem("Livro")
-                .valorItem(20.0)
+                .valorItem(BigDecimal.valueOf(20.0))
                 .build();
 
         itensPedido.add(itemPedido);
@@ -58,12 +60,12 @@ public class PagamentoDetalhesDTOTest {
 
         ItemPedido itemPedidoUm = ItemPedido.builder()
                 .tituloItem("Livro")
-                .valorItem(20.0)
+                .valorItem(BigDecimal.valueOf(20.0))
                 .build();
 
         ItemPedido itemPedidoDois = ItemPedido.builder()
                 .tituloItem("Livro")
-                .valorItem(20.0)
+                .valorItem(BigDecimal.valueOf(20.0))
                 .build();
 
         itensPedidoUm.add(itemPedidoUm);
@@ -86,12 +88,12 @@ public class PagamentoDetalhesDTOTest {
 
         ItemPedido itemPedidoUm = ItemPedido.builder()
                 .tituloItem("Livro")
-                .valorItem(20.0)
+                .valorItem(BigDecimal.valueOf(20.0))
                 .build();
 
         ItemPedido itemPedidoDois = ItemPedido.builder()
                 .tituloItem("Livro")
-                .valorItem(20.0)
+                .valorItem(BigDecimal.valueOf(20.0))
                 .build();
 
         itensPedidoUm.add(itemPedidoUm);

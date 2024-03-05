@@ -34,30 +34,30 @@ public class PagamentoService {
 
         List<PagamentoDetalhesDTO> detalhesPagamento = new ArrayList<>();
 
-        double totalCompraSemFreteEDescontos = calcularTotalCompra(carrinho.getPedidos());
+        BigDecimal totalCompraSemFreteEDescontos = calcularTotalCompra(carrinho.getPedidos());
 
-        double valorAcrescimoTratado = calculaValorAcrescimo(carrinho.getAcrescimo(), totalCompraSemFreteEDescontos,
+        BigDecimal valorAcrescimoTratado = calculaValorAcrescimo(carrinho.getAcrescimo(), totalCompraSemFreteEDescontos,
                 carrinho.getTipoAcrescimo());
 
-        double valorDescontoTratado = calculaValorDesconto(carrinho.getDesconto(), totalCompraSemFreteEDescontos,
+        BigDecimal valorDescontoTratado = calculaValorDesconto(carrinho.getDesconto(), totalCompraSemFreteEDescontos,
                 carrinho.getTipoDesconto());
 
         carrinho.getPedidos().forEach(pedido -> {
 
-            double totalPedido = calcularTotalPedido(pedido.getItensPedido());
+            BigDecimal totalPedido = calcularTotalPedido(pedido.getItensPedido());
 
-            double proporcaoItens = calcularProporcao(totalPedido, totalCompraSemFreteEDescontos);
+            BigDecimal proporcaoItens = calcularProporcao(totalPedido, totalCompraSemFreteEDescontos);
 
-            double valorEntregaProporcional = calcularValorProporcional(carrinho.getValorFrete(),
+            BigDecimal valorEntregaProporcional = calcularValorProporcional(carrinho.getValorFrete(),
                     proporcaoItens);
 
-            double valorDescontoProporcional = calcularValorProporcional(valorDescontoTratado,
+            BigDecimal valorDescontoProporcional = calcularValorProporcional(valorDescontoTratado,
                     proporcaoItens);
 
-            double valorAcrescimoProporcional = calcularValorProporcional(valorAcrescimoTratado,
+            BigDecimal valorAcrescimoProporcional = calcularValorProporcional(valorAcrescimoTratado,
                     proporcaoItens);
 
-            double valorAPagar = calcularValorFinalAPagar(totalPedido, valorEntregaProporcional,
+            BigDecimal valorAPagar = calcularValorFinalAPagar(totalPedido, valorEntregaProporcional,
                     valorDescontoProporcional, valorAcrescimoProporcional);
 
             String valorTratado = trataValorDecimal(valorAPagar);
@@ -86,76 +86,87 @@ public class PagamentoService {
         return pixService.pixCriarCobranca(pixChargeInfo);
     }
 
-    private double calculaValorAcrescimo(double valorAcrescimo, double totalCompraOriginal,
+    private BigDecimal calculaValorAcrescimo(BigDecimal valorAcrescimo, BigDecimal totalCompraOriginal,
                                          TipoAcrescimo tipoAcrescimo) {
 
-        double valorTratado = trataValorAcrescimo(valorAcrescimo, tipoAcrescimo);
+        BigDecimal valorTratado = trataValorAcrescimo(valorAcrescimo, tipoAcrescimo);
 
         if (tipoAcrescimo == TipoAcrescimo.PORCENTAGEM) {
-            return totalCompraOriginal * valorTratado;
+            return totalCompraOriginal.multiply(valorTratado);
         } else {
             return valorTratado;
         }
     }
 
-    private double calculaValorDesconto(double valorDesconto, double totalCompraOriginal,
+    private BigDecimal calculaValorDesconto(BigDecimal valorDesconto, BigDecimal totalCompraOriginal,
                                         TipoDesconto tipoDesconto) {
 
-        double valorTratado = trataValorDesconto(valorDesconto, tipoDesconto);
+        BigDecimal valorTratado = trataValorDesconto(valorDesconto, tipoDesconto);
 
         if (tipoDesconto == TipoDesconto.PORCENTAGEM) {
-            return totalCompraOriginal * valorTratado;
+            return totalCompraOriginal.multiply(valorTratado);
         } else {
             return valorTratado;
         }
     }
 
-    private double trataValorAcrescimo(double valorAcrescimo, TipoAcrescimo tipoAcrescimo) {
+    private BigDecimal trataValorAcrescimo(BigDecimal valorAcrescimo, TipoAcrescimo tipoAcrescimo) {
         if (tipoAcrescimo == TipoAcrescimo.PORCENTAGEM) {
-            return valorAcrescimo / 100;
+            return valorAcrescimo.divide(new BigDecimal("100"));
         } else {
             return valorAcrescimo;
         }
     }
 
-    private double trataValorDesconto(double valorDesconto, TipoDesconto tipoDesconto) {
+    private BigDecimal trataValorDesconto(BigDecimal valorDesconto, TipoDesconto tipoDesconto) {
         if (tipoDesconto == TipoDesconto.PORCENTAGEM) {
-            return valorDesconto / 100;
+            return valorDesconto.divide(new BigDecimal("100"));
         } else {
             return valorDesconto;
         }
     }
 
-    private String trataValorDecimal(double valor) {
-        BigDecimal valorBigDecimal = BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_EVEN);
+    private String trataValorDecimal(BigDecimal valor) {
+        BigDecimal valorBigDecimal = valor.setScale(2, RoundingMode.HALF_EVEN);
         DecimalFormat df = new DecimalFormat("#.00");
 
         return df.format(valorBigDecimal);
     }
 
-    private double calcularTotalCompra(List<Pedido> pedidos) {
+    private BigDecimal calcularTotalCompra(List<Pedido> pedidos) {
         return pedidos.stream()
-                .mapToDouble(pedido -> calcularTotalPedido(pedido.getItensPedido()))
-                .sum();
+                .map(pedido -> calcularTotalPedido(pedido.getItensPedido()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private double calcularTotalPedido(List<ItemPedido> itensPedido) {
+    private BigDecimal calcularTotalPedido(List<ItemPedido> itensPedido) {
         return itensPedido.stream()
-                .mapToDouble(ItemPedido::getValorItem)
-                .sum();
+                .map(ItemPedido::getValorItem)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private double calcularProporcao(double valor, double total) {
-        return valor / total;
+    private BigDecimal calcularProporcao(BigDecimal valor, BigDecimal total) {
+        int escala = 2;
+        RoundingMode modoArredondamento = RoundingMode.HALF_EVEN;
+
+        return valor.divide(total, escala, modoArredondamento);
     }
 
-    private double calcularValorProporcional(double valorOriginal, double proporcaoItens) {
-        return valorOriginal * proporcaoItens;
+    private BigDecimal calcularValorProporcional(BigDecimal valorOriginal, BigDecimal proporcaoItens) {
+        return valorOriginal.multiply(proporcaoItens);
     }
 
-    private double calcularValorFinalAPagar(double totalPedido, double valorEntregaProporcional,
-                                       double valorDescontoProporcional, double valorAcrescimoProporcional) {
-        return totalPedido + (valorEntregaProporcional - valorDescontoProporcional + valorAcrescimoProporcional);
+    private BigDecimal calcularValorFinalAPagar(BigDecimal totalPedido, BigDecimal valorEntregaProporcional,
+                                            BigDecimal valorDescontoProporcional,
+                                            BigDecimal valorAcrescimoProporcional) {
+
+        BigDecimal resultado = totalPedido
+                .add(valorEntregaProporcional)
+                .subtract(valorDescontoProporcional)
+                .add(valorAcrescimoProporcional);
+
+        // Retornando o resultado como double, caso seja necessário
+        return resultado;
     }
 
     private PagamentoDetalhesDTO criarDetalhesItemSolicitado(Pedido pedido, String valorTratado,

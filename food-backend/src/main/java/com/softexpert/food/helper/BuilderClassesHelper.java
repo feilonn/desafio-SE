@@ -9,6 +9,7 @@ import com.softexpert.food.enums.TipoAcrescimo;
 import com.softexpert.food.enums.TipoDesconto;
 import com.softexpert.food.enums.TipoPagamento;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ public class BuilderClassesHelper {
 
         ItemPedido itemPedido = ItemPedido.builder()
                 .tituloItem("Lanche")
-                .valorItem(1.0)
+                .valorItem(BigDecimal.valueOf(1.0))
                 .build();
 
         list.add(itemPedido);
@@ -73,9 +74,9 @@ public class BuilderClassesHelper {
 
     public static CarrinhoDTO criarCarrinhoDTOValido() {
         CarrinhoDTO dto = CarrinhoDTO.builder()
-                .acrescimo(0)
-                .desconto(0)
-                .valorFrete(0)
+                .acrescimo(BigDecimal.valueOf(0.0))
+                .desconto(BigDecimal.valueOf(0.0))
+                .valorFrete(BigDecimal.valueOf(0.0))
                 .tipoAcrescimo(TipoAcrescimo.INTEIRO)
                 .tipoDesconto(TipoDesconto.INTEIRO)
                 .tipoPagamento(TipoPagamento.PIX)

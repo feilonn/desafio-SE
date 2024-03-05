@@ -29,17 +29,4 @@ public class PagamentoController {
         return ResponseEntity.ok(detalhesPagamento);
     }
 
-
-    /*Método utilizado para gerar uma chave PIX única e aleatória no banco Efí.
-      Tal chave foi utilizada nessa aplicação */
-//    @GetMapping("pix")
-//    public ResponseEntity<String> createPixEVP() {
-//
-//        JSONObject response = pixService.pixCriarChaveAleatoria();
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(response.toString());
-//    }
-
 }

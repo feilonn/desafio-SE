@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -23,13 +24,13 @@ public class CarrinhoDTO {
     private List<Pedido> pedidos;
 
     @PositiveOrZero(message = "O valor do frete não pode ser negativo")
-    private double valorFrete;
+    private BigDecimal valorFrete;
 
     @PositiveOrZero(message = "O valor do desconto não pode ser negativo")
-    private double desconto;
+    private BigDecimal desconto;
 
     @PositiveOrZero(message = "O valor do acrescimo não pode ser negativo")
-    private double acrescimo;
+    private BigDecimal acrescimo;
 
     private TipoDesconto tipoDesconto;
 
