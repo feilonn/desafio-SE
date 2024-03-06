@@ -113,7 +113,7 @@ Utilizados nos testes: JUnit, Mockito e AssertJ.
 
 # Informações Adicionais
 - O método de pagamento implementado nessa ocasião foi o de PIX, mas a aplicação está pronta para ser integrada com demais outras através um controlador baseado em ENUM:
-  
+Obs: No print com o trecho de código do 'switch', existe uma opção que está comentada somente para exemplicar como ficaria o código quando houvessem novas formas de pagamento disponível.  
 ![image](https://github.com/feilonn/desafio-SE/assets/60004704/6a0c5be6-fcce-4a8d-ac08-bb875c544336)
 ![image](https://github.com/feilonn/desafio-SE/assets/60004704/93d655a8-41c3-48b2-b65c-1eeff82c65a6)
 
